@@ -9,7 +9,7 @@ Editorial VARCHAR(100) NOT NULL,
 Autor VARCHAR(50) NOT NULL,
 Título VARCHAR (100) NOT NULL,
 Categoría VARCHAR (50),
-Precio DECIMAL (7),
+Precio DECIMAL (8,2),
 PRIMARY KEY (Id)
 );
 
@@ -37,7 +37,7 @@ Id INT AUTO_INCREMENT,
 Id_Prod INT NOT NULL,
 Id_envio INT NOT NULL,
 Fecha_venta DATE NOT NULL,
-Costo_total DECIMAL (10) NOT NULL,
+Costo_total DECIMAL (9,2) NOT NULL,
 PRIMARY KEY (Id),
 FOREIGN KEY (Id_Prod) REFERENCES producto (Id),
 FOREIGN KEY (Id_envio) REFERENCES envio (Id)
@@ -66,7 +66,7 @@ FOREIGN KEY (Id_Proveedor) REFERENCES proveedor (Id)
 CREATE TABLE IF NOT EXISTS compras (
 Orden_de_compra INT AUTO_INCREMENT,
 Id_Proveedor INT NOT NULL,
-Costo_compra DECIMAL (10) NOT NULL,
+Costo_compra DECIMAL (9,2) NOT NULL,
 Cantidad_compra INT NOT NULL,
 Id_Prod INT NOT NULL,
 PRIMARY KEY (Orden_de_compra),
@@ -138,7 +138,7 @@ CREATE TABLE IF NOT EXISTS envio (
 Id INT AUTO_INCREMENT,
 Fecha_entrega DATE NOT NULL,
 Id_usuario INT NOT NULL,
-Costo_envio DECIMAL (7) NOT NULL,
+Costo_envio DECIMAL (6,2) NOT NULL,
 Codigo_postal INT NOT NULL, 
 Id_repartidor INT NOT NULL, 
 PRIMARY KEY (Id),
