@@ -3,7 +3,6 @@
 CREATE SCHEMA IF NOT EXISTS LibreriaFinanciera;
 USE LibreriaFinanciera;
 
-
 CREATE TABLE IF NOT EXISTS producto (
 Id INT AUTO_INCREMENT,
 Editorial VARCHAR(100) NOT NULL,
@@ -20,7 +19,7 @@ PRIMARY KEY (Id)
 
 CREATE TABLE IF NOT EXISTS cliente (
 Id INT AUTO_INCREMENT,
-Email VARCHAR (25) NOT NULL UNIQUE,
+Email VARCHAR (50) NOT NULL UNIQUE,
 Nombre_cliente VARCHAR (25) NOT NULL,
 Apellido_cliente VARCHAR (25) NOT NULL,
 Domicilio_cliente VARCHAR (25) NOT NULL,
@@ -51,7 +50,7 @@ CREATE TABLE IF NOT EXISTS repartidores (
 Repartidor INT AUTO_INCREMENT,
 Nombre VARCHAR (30) NOT NULL,
 Apellido VARCHAR (30) NOT NULL,
-Tel_repartidor INT NOT NULL UNIQUE,
+Tel_repartidor VARCHAR (25) NULL UNIQUE,
 Email_repartidor Varchar (50) NOT NULL UNIQUE,
 PRIMARY KEY (Repartidor)
 );
