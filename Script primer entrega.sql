@@ -110,7 +110,7 @@ FOREIGN KEY (Id_metodo) REFERENCES metodo_de_pago (Id)
 CREATE TABLE IF NOT EXISTS metodo_de_pago (
 Id Varchar (50) NOT NULL UNIQUE,
 Metodo Varchar (50) NOT NULL,
-Entidad_financiera Varchar (50) NULL, -- No aplica para pagos en efectivo.
+Entidad_financiera INT NULL, -- No aplica para pagos en efectivo.
 PRIMARY KEY (Id),
 FOREIGN KEY (Entidad_financiera) REFERENCES entidad_financiera (Id)
 );
