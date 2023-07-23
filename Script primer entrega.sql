@@ -1,7 +1,7 @@
 -- Armado de base de datos y tablas
 
 CREATE SCHEMA IF NOT EXISTS LibreriaFinanciera;
-USE LibreriaFinanciera; 
+USE LibreriaFinanciera;
 
 CREATE TABLE IF NOT EXISTS producto (
 Id INT AUTO_INCREMENT,
@@ -119,8 +119,8 @@ PRIMARY KEY (Id)
 
 CREATE TABLE IF NOT EXISTS stock (
 Item VARCHAR (50) NOT NULL UNIQUE,
-Cantidad INT NOT NULL,
 Id_Prod INT NOT NULL,
+Cantidad INT NOT NULL,
 Stock_min INT NOT NULL,
 Lead_time INT NOT NULL, -- Este campo indica la cantidad de días que demora el proveedor en entregarnos los productos para nuestro abastecimiento
 Id_Proveedor INT NOT NULL,
@@ -144,7 +144,7 @@ FOREIGN KEY (Id_Proveedor) REFERENCES proveedor (Id)
 
 -- Comandos para ir probando:
 -- SELECT * FROM compras;
-DROP TABLE compras;
+-- DROP TABLE compras;
 
 CREATE TABLE IF NOT EXISTS entidad_financiera (
 Id INT AUTO_INCREMENT,
