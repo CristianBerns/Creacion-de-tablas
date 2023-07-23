@@ -149,7 +149,7 @@ DROP TABLE compras;
 CREATE TABLE IF NOT EXISTS entidad_financiera (
 Id INT AUTO_INCREMENT,
 Entidad_financiera VARCHAR (50) NOT NULL,
-Tarjeta INT NOT NULL UNIQUE,
+Número_Tarjeta VARCHAR (20) NULL UNIQUE,
 Pin_seguridad INT NOT NULL,
 Nombre VARCHAR (30) NOT NULL,
 Apellido VARCHAR (30) NOT NULL,
@@ -161,45 +161,17 @@ PRIMARY KEY (Id)
 -- SELECT * FROM entidad_financiera;
 -- DROP TABLE entidad_financiera;
 
-CREATE TABLE IF NOT EXISTS metodo_de_pago (
-Id Varchar (50) NOT NULL UNIQUE,
-Metodo Varchar (50) NOT NULL,
-Entidad_financiera INT NULL, -- No aplica para pagos en efectivo.
-PRIMARY KEY (Id),
-FOREIGN KEY (Entidad_financiera) REFERENCES entidad_financiera (Id)
-);
-
--- Comandos para ir probando:
--- SELECT * FROM metodo_de_pago;
--- DROP TABLE metodo_de_pago;
 
 CREATE TABLE IF NOT EXISTS ventas (
 Id INT AUTO_INCREMENT,
 Fecha_venta DATE NOT NULL,
 Id_Prod INT NOT NULL,
 Id_factura INT NOT NULL,
-Id_metodo VARCHAR (50) NOT NULL,
 PRIMARY KEY (Id),
 FOREIGN KEY (Id_Prod) REFERENCES producto (Id),
-FOREIGN KEY (Id_factura) REFERENCES facturacion (Id),
-FOREIGN KEY (Id_metodo) REFERENCES metodo_de_pago (Id)
+FOREIGN KEY (Id_factura) REFERENCES facturacion (Id)
 );
 
 -- Comandos para ir probando:
 -- SELECT * FROM ventas;
 -- DROP TABLE ventas;
-
-
-CREATE TABLE IF NOT EXISTS safitsfaccion_cliente (
-Id INT AUTO_INCREMENT,
-Calificación INT,
-Comentarios VARCHAR (250),
-Id_usuario INT NOT NULL,
-Fecha_comentario DATE NOT NULL,
-PRIMARY KEY (Id),
-FOREIGN KEY (Id_usuario) REFERENCES cliente (Id)
-);
-
--- Comandos para ir probando:
--- SELECT * FROM safitsfaccion_cliente;
--- DROP TABLE safitsfaccion_cliente;
