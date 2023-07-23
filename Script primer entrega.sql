@@ -175,3 +175,17 @@ FOREIGN KEY (Id_factura) REFERENCES facturacion (Id)
 -- Comandos para ir probando:
 -- SELECT * FROM ventas;
 -- DROP TABLE ventas;
+
+CREATE TABLE IF NOT EXISTS safitsfaccion_cliente (
+Id INT AUTO_INCREMENT,
+Calificación INT,
+Comentarios VARCHAR (250),
+Id_usuario INT NOT NULL,
+Fecha_comentario DATE NOT NULL,
+PRIMARY KEY (Id),
+FOREIGN KEY (Id_usuario) REFERENCES cliente (Id)
+);
+
+-- Comandos para ir probando:
+-- SELECT * FROM safitsfaccion_cliente;
+-- DROP TABLE safitsfaccion_cliente;
