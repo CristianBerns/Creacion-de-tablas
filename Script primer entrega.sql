@@ -1,7 +1,7 @@
 -- Armado de base de datos y tablas
 
 CREATE SCHEMA IF NOT EXISTS LibreriaFinanciera;
-USE LibreriaFinanciera;
+USE LibreriaFinanciera; 
 
 CREATE TABLE IF NOT EXISTS producto (
 Id INT AUTO_INCREMENT,
@@ -108,7 +108,7 @@ CREATE TABLE IF NOT EXISTS proveedor (
 Id INT AUTO_INCREMENT,
 Razon_social VARCHAR (50) NOT NULL UNIQUE,
 email VARCHAR (50) NOT NULL UNIQUE,
-Tel_prov INT NOT NULL UNIQUE,
+Tel_prov VARCHAR (25) NOT NULL UNIQUE,
 Domicilio_prov Varchar (50) NOT NULL, -- No es unique, porque hay empresas ubicadas dentre de un mismo predio con mismo domicilio
 PRIMARY KEY (Id)
 );
@@ -125,7 +125,7 @@ Stock_min INT NOT NULL,
 Lead_time INT NOT NULL, -- Este campo indica la cantidad de días que demora el proveedor en entregarnos los productos para nuestro abastecimiento
 Id_Proveedor INT NOT NULL,
 PRIMARY KEY (Item),
-FOREIGN KEY (Id_Prod) REFERENCES producto (Id),
+FOREIGN KEY (Id_Prod) REFERENCES producto  (Id),
 FOREIGN KEY (Id_Proveedor) REFERENCES proveedor (Id)
 );
 
@@ -134,19 +134,17 @@ FOREIGN KEY (Id_Proveedor) REFERENCES proveedor (Id)
 -- DROP TABLE stock;
 
 CREATE TABLE IF NOT EXISTS compras (
-Orden_de_compra INT AUTO_INCREMENT,
+Orden_de_compra VARCHAR (50) NOT NULL UNIQUE,
+Fecha DATE NOT NULL,
 Id_Proveedor INT NOT NULL,
 Costo_compra DECIMAL (9,2) NOT NULL,
-Cantidad_compra INT NOT NULL,
-Id_Prod INT NOT NULL,
 PRIMARY KEY (Orden_de_compra),
-FOREIGN KEY (Id_Prod) REFERENCES producto (Id),
 FOREIGN KEY (Id_Proveedor) REFERENCES proveedor (Id)
 );
 
 -- Comandos para ir probando:
 -- SELECT * FROM compras;
--- DROP TABLE compras;
+DROP TABLE compras;
 
 CREATE TABLE IF NOT EXISTS entidad_financiera (
 Id INT AUTO_INCREMENT,
