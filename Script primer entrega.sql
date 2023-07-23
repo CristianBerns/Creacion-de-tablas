@@ -61,6 +61,7 @@ PRIMARY KEY (Repartidor)
 
 CREATE TABLE IF NOT EXISTS codigos_postales (
 Id INT NOT NULL UNIQUE,
+Codigo INT,
 Provincia VARCHAR (30) NOT NULL,
 Partido VARCHAR (30) NOT NULL,
 Localidad VARCHAR (30) NOT NULL,
