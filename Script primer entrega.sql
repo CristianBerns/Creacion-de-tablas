@@ -6,8 +6,8 @@ USE LibreriaFinanciera;
 CREATE TABLE IF NOT EXISTS producto (
 Id INT AUTO_INCREMENT,
 Editorial VARCHAR(100) NOT NULL,
-Autor VARCHAR(500) NOT NULL,
-Título VARCHAR (300) NOT NULL,
+Autor VARCHAR(100) NOT NULL,
+Título VARCHAR (100) NOT NULL,
 Categoría VARCHAR (50),
 Precio DECIMAL (8,2),
 PRIMARY KEY (Id)
@@ -89,21 +89,6 @@ FOREIGN KEY (Codigo_postal) REFERENCES codigos_postales (Id)
 -- SELECT * FROM envio;
 -- DROP TABLE envio;
 
-CREATE TABLE IF NOT EXISTS facturacion (
-Id INT AUTO_INCREMENT,
-Id_Prod INT NOT NULL,
-Id_envio INT NOT NULL,
-Fecha_venta DATE NOT NULL,
-Costo_total DECIMAL (9,2) NOT NULL,
-PRIMARY KEY (Id),
-FOREIGN KEY (Id_Prod) REFERENCES producto (Id),
-FOREIGN KEY (Id_envio) REFERENCES envio (Id)
-);
-
--- Comandos para ir probando:
--- SELECT * FROM facturacion;
--- DROP TABLE facturacion;
-
 CREATE TABLE IF NOT EXISTS proveedor (
 Id INT AUTO_INCREMENT,
 Razon_social VARCHAR (50) NOT NULL UNIQUE,
@@ -161,15 +146,14 @@ PRIMARY KEY (Id)
 -- SELECT * FROM entidad_financiera;
 -- DROP TABLE entidad_financiera;
 
-
 CREATE TABLE IF NOT EXISTS ventas (
 Id INT AUTO_INCREMENT,
 Fecha_venta DATE NOT NULL,
 Id_Prod INT NOT NULL,
-Id_factura INT NOT NULL,
+Cliente INT NOT NULL,
 PRIMARY KEY (Id),
 FOREIGN KEY (Id_Prod) REFERENCES producto (Id),
-FOREIGN KEY (Id_factura) REFERENCES facturacion (Id)
+FOREIGN KEY (Cliente) REFERENCES cliente (Id)
 );
 
 -- Comandos para ir probando:
@@ -189,3 +173,4 @@ FOREIGN KEY (Cliente) REFERENCES cliente (Id)
 -- Comandos para ir probando:
 -- SELECT * FROM safitsfaccion_cliente;
 -- DROP TABLE satisfaccion_cliente;
+
