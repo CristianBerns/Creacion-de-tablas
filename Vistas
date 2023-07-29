@@ -1,0 +1,69 @@
+USE libreriafinanciera;
+
+-- Vista de Ventas mensuales por título
+
+CREATE VIEW Ventas_mes_vw AS
+SELECT 
+  DATE_FORMAT(v.Fecha_venta, '%Y-%m') AS Mes,
+  p.Título AS 'Libro',
+  p.Precio AS 'Precio unitario',
+  SUM(p.precio) AS 'Ventas totales'
+FROM ventas v
+JOIN producto p ON v.Id_Prod = p.Id
+GROUP BY DATE_FORMAT(v.Fecha_venta, '%Y-%m'), v.Id_Prod, p.Id, p.Precio;
+
+-- Probar:
+-- SELECT * FROM Ventas_mes_vw;
+-- DROP VIEW Ventas_mes_vw;
+
+-- Vista de stock: muestra la cantidad disponible de unidades de cada libro
+
+CREATE VIEW stock_vw AS
+SELECT 
+p.Título AS Libro,
+s.Cantidad AS Stock
+FROM producto p
+JOIN stock s on p.Id = s.Id_Prod
+ORDER BY s.Cantidad ASC;
+
+-- Probar:
+-- SELECT * FROM stock_vw;
+-- DROP view stock_vw;
+
+-- Vista de compras por cliente
+
+CREATE VIEW ventas_por_cliente_vw AS
+SELECT DISTINCT
+CONCAT (c.Nombre_cliente,' ',c.Apellido_cliente) AS Nombre,
+p.Título AS Libro
+FROM cliente c
+JOIN ventas v ON c.Id= v.cliente
+JOIN producto p on v.Id_Prod= p.Id
+ORDER BY Nombre ASC;
+
+-- Probar:
+-- SELECT * FROM ventas_por_cliente_vw;
+-- DROP view ventas_por_cliente_vw;
+
+-- Vista de libros de analisis técnico
+
+CREATE VIEW Técnicos_vw AS
+SELECT Título,Autor, Precio
+FROM producto
+WHERE Categoría = 'Análisis técnico'
+ORDER BY Precio ASC;
+
+-- Probar:
+-- SELECT * FROM  Técnicos_vw;
+-- DROP VIEW Técnicos_vw;
+
+-- Vista de libros de analisis fundamental
+CREATE VIEW Fundamental_vw AS
+SELECT Título,Autor, Precio
+FROM producto
+WHERE Categoría = 'Análisis fundamental'
+ORDER BY Precio ASC;
+
+-- Probar:
+-- SELECT * FROM  Fundamental_vw;
+-- DROP VIEW Fundamental_vw;
