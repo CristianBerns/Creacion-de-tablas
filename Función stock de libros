@@ -1,0 +1,12 @@
+CREATE DEFINER=`root`@`localhost` FUNCTION `Stock_libros`(Id INT) RETURNS int
+    READS SQL DATA
+BEGIN
+    DECLARE stock_de_libros DECIMAL(8,2);
+    
+    SELECT Cantidad INTO stock_de_libros
+    FROM stock
+    WHERE Id_Prod = Id; -- El nombre del libro debe estar entre comillas, por ser tipo VARCHAR
+    
+    RETURN stock_de_libros;
+
+END
