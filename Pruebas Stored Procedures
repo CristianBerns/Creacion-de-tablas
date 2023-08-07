@@ -1,0 +1,2 @@
+-- Stored Procedures 1
+CALL sp_libros('Título', 'DESC');
