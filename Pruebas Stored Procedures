@@ -1,2 +1,6 @@
 -- Stored Procedures 1
 CALL sp_libros('Título', 'DESC');
+
+-- Stored Procedures 2
+CALL sp_agregar_stock(5, 4)
+-- Si en SQL citas la tabla Stock, vas a ver que antes después de ejecutar este comando, el Id_prod va a aumentar su stock en 4 unidades
