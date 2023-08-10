@@ -1,5 +1,5 @@
 CREATE TRIGGER tr_eliminar_provedores
-BEFORE DELETE ON cliente
+BEFORE DELETE ON proveedor
 FOR EACH ROW
 INSERT INTO borrar_proveedor (Item, Id_Prod, Cantidad, Stock_min, Lead_time, Id_Proveedor, Usuario, Fecha, Hora)
-VALUES (OLD.Item, OLD.Id_Prod, OLD.Cantidad, OLD.Stock_min, OLD.Lead_time, OLD.Id_Proveedor, USER(), CURDATE(), CURTIME());
+VALUES (OLD.Id, OLD.Razon_social, OLD.email, OLD.Tel_prov, OLD.Domicilio_prov, USER(), CURDATE(), CURTIME());
