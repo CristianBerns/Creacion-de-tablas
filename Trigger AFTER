@@ -1,0 +1,5 @@
+CREATE TRIGGER tr_agregar_clientes_nuevos
+AFTER INSERT ON cliente -- Después de que se inserten uno o más registros en la tabla cliente, se agregaran datos a nuestra nueva tabla
+FOR EACH ROW
+INSERT INTO nuevos_clientes (Usuario, Fecha, Hora, Id, Email, Nombre_cliente, Apellido_cliente, Domicilio_cliente, Telefono_cliente) -- La tabla que utilizaremos se llamará nuevos_clientes, no usaremos un Log
+VALUES (USER(), CURDATE(), CURTIME(), NEW.Id, NEW.Email, NEW.Nombre_cliente, NEW.Apellido_cliente, NEW.Domicilio_cliente, NEW.Telefono_cliente); -- Además de los datos de los clientes, agregamos el usuario, la fecha y el horario en que se realizó
