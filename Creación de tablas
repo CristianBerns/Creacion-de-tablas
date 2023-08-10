@@ -31,6 +31,16 @@ PRIMARY KEY (Id)
 -- SELECT * FROM cliente;
 -- DROP TABLE cliente;
 
+CREATE TABLE IF NOT EXISTS nuevos_clientes ( -- Tabla utilizada para crear Trigger
+Id INT AUTO_INCREMENT,
+Email VARCHAR (50) NOT NULL UNIQUE,
+Nombre_cliente VARCHAR (25) NOT NULL,
+Apellido_cliente VARCHAR (25) NOT NULL,
+Domicilio_cliente VARCHAR (25) NOT NULL,
+Telefono_cliente VARCHAR (25) NOT NULL UNIQUE,
+PRIMARY KEY (Id)
+);
+
 CREATE TABLE IF NOT EXISTS order_picking (
 Id INT AUTO_INCREMENT,
 Id_Prod INT NOT NULL,
@@ -89,6 +99,21 @@ FOREIGN KEY (Codigo_postal) REFERENCES codigos_postales (Id)
 -- SELECT * FROM envio;
 -- DROP TABLE envio;
 
+CREATE TABLE IF NOT EXISTS facturacion (
+Id INT AUTO_INCREMENT,
+Id_Prod INT NOT NULL,
+Id_envio INT NOT NULL,
+Fecha_venta DATE NOT NULL,
+Costo_total DECIMAL (9,2) NOT NULL,
+PRIMARY KEY (Id),
+FOREIGN KEY (Id_Prod) REFERENCES producto (Id),
+FOREIGN KEY (Id_envio) REFERENCES envio (Id)
+);
+
+-- Comandos para ir probando:
+-- SELECT * FROM facturacion;
+-- DROP TABLE facturacion;
+
 CREATE TABLE IF NOT EXISTS proveedor (
 Id INT AUTO_INCREMENT,
 Razon_social VARCHAR (50) NOT NULL UNIQUE,
@@ -101,6 +126,15 @@ PRIMARY KEY (Id)
 -- Comandos para ir probando:
 -- SELECT * FROM proveedor;
 -- DROP TABLE proveedor;
+
+CREATE TABLE IF NOT EXISTS borrar_proveedor (
+Id INT AUTO_INCREMENT,
+Razon_social VARCHAR (50) NOT NULL UNIQUE,
+email VARCHAR (50) NOT NULL UNIQUE,
+Tel_prov VARCHAR (25) NOT NULL UNIQUE,
+Domicilio_prov Varchar (50) NOT NULL, -- No es unique, porque hay empresas ubicadas dentre de un mismo predio con mismo domicilio
+PRIMARY KEY (Id)
+);
 
 CREATE TABLE IF NOT EXISTS stock (
 Item VARCHAR (50) NOT NULL UNIQUE,
@@ -150,10 +184,10 @@ CREATE TABLE IF NOT EXISTS ventas (
 Id INT AUTO_INCREMENT,
 Fecha_venta DATE NOT NULL,
 Id_Prod INT NOT NULL,
-Cliente INT NOT NULL,
+Id_cliente INT NOT NULL,
 PRIMARY KEY (Id),
 FOREIGN KEY (Id_Prod) REFERENCES producto (Id),
-FOREIGN KEY (Cliente) REFERENCES cliente (Id)
+FOREIGN KEY (Id_cliente) REFERENCES cliente (Id)
 );
 
 -- Comandos para ir probando:
