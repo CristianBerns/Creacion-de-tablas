@@ -1,0 +1,12 @@
+USE libreriafinanciera;
+
+-- Comenzamos con el ejercicio del primer usuario
+CREATE USER 'Bart'@'localhost' IDENTIFIED BY 'Simpson'; -- Creación del primer usuario, con su correspondiente contraseña
+GRANT SELECT ON libreriafinanciera.* TO 'Bart'@'localhost'; -- Asignación de permisos de lectura al primer usuario
+REVOKE DELETE ON libreriafinanciera.* FROM 'Bart'@'localhost'; -- Prohibición de eliminación de registros al primer usuario
+
+-- Segundo usuario
+
+CREATE USER 'Ned'@'localhost' IDENTIFIED BY 'Flanders'; -- Creación del segundo usuario, con su correspondiente contraseña
+GRANT SELECT, INSERT, UPDATE ON libreriafinanciera.* TO 'Ned'@'localhost'; -- Asignación de permisos de lecutra, inserción y modificación 
+REVOKE DELETE ON libreriafinanciera.* FROM 'Ned'@'localhost'; -- Imposibilidad de eliminar datos
