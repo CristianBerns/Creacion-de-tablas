@@ -29,4 +29,5 @@ INSERT INTO repartidores (Repartidor, Nombre, Apellido, Tel_repartidor, Email_re
 
 -- ROLLBACK TO SAVEPOINT nuevos_cuatro;
 -- En la línea anterior está la eliminación del SAVEPOINT, comentarizada, tal como lo pide la consigna
+
 COMMIT;
