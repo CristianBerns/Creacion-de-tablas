@@ -1,1 +1,9 @@
 -- Primera Tabla
+
+START TRANSACTION;
+DELETE FROM producto -- Indico sobre que tabla eliminaré los registros
+WHERE id <= 5; -- Eliminamos los primeros 5 registros de la tabla
+ROLLBACK; -- Deshacemos la eliminación usando un rollback
+-- COMMIT; coloco el "Commit comentado, tal como lo solicta la consigna
+
+-- Segunda tabla
