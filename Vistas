@@ -37,7 +37,7 @@ SELECT DISTINCT
 CONCAT (c.Nombre_cliente,' ',c.Apellido_cliente) AS Nombre,
 p.Título AS Libro
 FROM cliente c
-JOIN ventas v ON c.Id= v.cliente
+JOIN ventas v ON c.Id= v.Id
 JOIN producto p on v.Id_Prod= p.Id
 ORDER BY Nombre ASC;
 
