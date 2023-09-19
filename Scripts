@@ -279,3 +279,23 @@ ORDER BY Precio ASC;
 -- Probar:
 -- SELECT * FROM  Fundamental_vw;
 -- DROP VIEW Fundamental_vw;
+
+
+-- FUNCIONES
+
+-- F1
+
+CREATE DEFINER=`root`@`localhost` FUNCTION `Precio_del_libro`(Libro VARCHAR(100)) RETURNS decimal(8,2)
+    READS SQL DATA
+BEGIN
+    DECLARE precio_libro DECIMAL(8,2);
+    
+    SELECT Precio INTO precio_libro
+    FROM producto
+    WHERE Título LIKE CONCAT('%', Libro, '%'); -- El nombre del libro debe estar entre comillas, por ser tipo VARCHAR
+    
+    RETURN precio_libro;
+
+END
+
+-- F2
