@@ -1,5 +1,0 @@
--- Función de stock: para esta función, se debe ingresar el Id del producto
-select stock_libros (4) AS stock;
-
--- Función precio del libro: en este caso, la función tiene un like, que permite colocar una parte del nombre del libro, y no es necesario ingresarlo completo
-select Precio_del_libro ('Paso') AS precio;
