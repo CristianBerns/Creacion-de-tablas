@@ -71,6 +71,25 @@ PEDIR POR Precio ASC;
 -- VISTA DROP Fundamental_vw;
 
 
+-- FUNCIÓN
+-- F1
+
+CREATE DEFINER=`root`@`localhost` FUNCTION `Precio_del_libro`(Libro VARCHAR(100)) RETURNS decimal(8,2)
+    READS SQL DATA
+BEGIN
+    DECLARE precio_libro DECIMAL(8,2);
+    
+    SELECT Precio INTO precio_libro
+    FROM producto
+    WHERE Título LIKE CONCAT('%', Libro, '%'); -- El nombre del libro debe estar entre comillas, por ser tipo VARCHAR
+    
+    RETURN precio_libro;
+
+END
+
+-- F2
+
+
 -- STORED  PRODUCERED
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_agregar_stock`(IN id_producto INT, IN cantidad_ingresada INT)
