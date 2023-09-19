@@ -1,0 +1,314 @@
+-- Armado de base de datos y tablas
+
+CREATE SCHEMA IF NOT EXISTS LibreriaFinanciera;
+USE LibreriaFinanciera;
+
+CREATE TABLE IF NOT EXISTS producto (
+Id INT AUTO_INCREMENT,
+Editorial VARCHAR(100) NOT NULL,
+Autor VARCHAR(100) NOT NULL,
+Título VARCHAR (100) NOT NULL,
+Categoría VARCHAR (50),
+Precio DECIMAL (8,2),
+PRIMARY KEY (Id)
+);
+
+-- Comandos para ir probando:
+-- SELECT * FROM producto;
+-- DROP TABLE producto; 
+
+CREATE TABLE IF NOT EXISTS cliente (
+Id INT AUTO_INCREMENT,
+Email VARCHAR (50) NOT NULL UNIQUE,
+Nombre_cliente VARCHAR (25) NOT NULL,
+Apellido_cliente VARCHAR (25) NOT NULL,
+Domicilio_cliente VARCHAR (25) NOT NULL,
+Telefono_cliente VARCHAR (25) NOT NULL UNIQUE,
+PRIMARY KEY (Id)
+);
+
+-- Comandos para ir probando:
+-- SELECT * FROM cliente;
+-- DROP TABLE cliente;
+
+CREATE TABLE IF NOT EXISTS nuevos_clientes ( -- Tabla utilizada para crear Trigger
+Id INT AUTO_INCREMENT,
+Email VARCHAR (50) NOT NULL UNIQUE,
+Nombre_cliente VARCHAR (25) NOT NULL,
+Apellido_cliente VARCHAR (25) NOT NULL,
+Domicilio_cliente VARCHAR (25) NOT NULL,
+Telefono_cliente VARCHAR (25) NOT NULL UNIQUE,
+PRIMARY KEY (Id)
+);
+
+CREATE TABLE IF NOT EXISTS order_picking (
+Id INT AUTO_INCREMENT,
+Id_Prod INT NOT NULL,
+Fecha_solicitud DATE NOT NULL,
+Cantidad INT NOT NULL,
+Id_Usuario INT NOT NULL,
+PRIMARY KEY (Id),
+FOREIGN KEY (Id_Prod) REFERENCES producto (Id),
+FOREIGN KEY (Id_usuario) REFERENCES cliente (Id)
+);
+
+-- Comandos para ir probando:
+-- Select * from Order_picking;
+-- DROP TABLE order_picking;
+
+CREATE TABLE IF NOT EXISTS repartidores (
+Repartidor INT AUTO_INCREMENT,
+Nombre VARCHAR (30) NOT NULL,
+Apellido VARCHAR (30) NOT NULL,
+Tel_repartidor VARCHAR (25) NULL UNIQUE,
+Email_repartidor Varchar (50) NOT NULL UNIQUE,
+PRIMARY KEY (Repartidor)
+);
+
+-- Comandos para ir probando:
+-- SELECT * FROM repartidores;
+-- DROP TABLE repartidores;
+
+CREATE TABLE IF NOT EXISTS codigos_postales (
+Id INT NOT NULL UNIQUE,
+Codigo INT,
+Provincia VARCHAR (30) NOT NULL,
+Partido VARCHAR (30) NOT NULL,
+Localidad VARCHAR (30) NOT NULL,
+PRIMARY KEY (Id)
+);
+
+-- Comandos para ir probando:
+-- SELECT * FROM codigos_postales;
+-- DROP TABLE codigos_postales;
+
+CREATE TABLE IF NOT EXISTS envio (
+Id INT AUTO_INCREMENT,
+Fecha_entrega DATE NOT NULL,
+Id_usuario INT NOT NULL,
+Costo_envio DECIMAL (6,2) NOT NULL,
+Codigo_postal INT NOT NULL, 
+Id_repartidor INT NOT NULL, 
+PRIMARY KEY (Id),
+FOREIGN KEY (Id_usuario) REFERENCES cliente (Id),
+FOREIGN KEY (Id_repartidor) REFERENCES repartidores (Repartidor),
+FOREIGN KEY (Codigo_postal) REFERENCES codigos_postales (Id)
+);
+
+-- Comandos para ir probando:
+-- SELECT * FROM envio;
+-- DROP TABLE envio;
+
+CREATE TABLE IF NOT EXISTS facturacion (
+Id INT AUTO_INCREMENT,
+Id_Prod INT NOT NULL,
+Id_envio INT NOT NULL,
+Fecha_venta DATE NOT NULL,
+Costo_total DECIMAL (9,2) NOT NULL,
+PRIMARY KEY (Id),
+FOREIGN KEY (Id_Prod) REFERENCES producto (Id),
+FOREIGN KEY (Id_envio) REFERENCES envio (Id)
+);
+
+-- Comandos para ir probando:
+-- SELECT * FROM facturacion;
+-- DROP TABLE facturacion;
+
+CREATE TABLE IF NOT EXISTS proveedor (
+Id INT AUTO_INCREMENT,
+Razon_social VARCHAR (50) NOT NULL UNIQUE,
+email VARCHAR (50) NOT NULL UNIQUE,
+Tel_prov VARCHAR (25) NOT NULL UNIQUE,
+Domicilio_prov Varchar (50) NOT NULL, -- No es unique, porque hay empresas ubicadas dentre de un mismo predio con mismo domicilio
+PRIMARY KEY (Id)
+);
+
+-- Comandos para ir probando:
+-- SELECT * FROM proveedor;
+-- DROP TABLE proveedor;
+
+CREATE TABLE IF NOT EXISTS borrar_proveedor (
+Id INT AUTO_INCREMENT,
+Razon_social VARCHAR (50) NOT NULL UNIQUE,
+email VARCHAR (50) NOT NULL UNIQUE,
+Tel_prov VARCHAR (25) NOT NULL UNIQUE,
+Domicilio_prov Varchar (50) NOT NULL, -- No es unique, porque hay empresas ubicadas dentre de un mismo predio con mismo domicilio
+PRIMARY KEY (Id)
+);
+
+CREATE TABLE IF NOT EXISTS stock (
+Item VARCHAR (50) NOT NULL UNIQUE,
+Id_Prod INT NOT NULL,
+Cantidad INT NOT NULL,
+Stock_min INT NOT NULL,
+Lead_time INT NOT NULL, -- Este campo indica la cantidad de días que demora el proveedor en entregarnos los productos para nuestro abastecimiento
+Id_Proveedor INT NOT NULL,
+PRIMARY KEY (Item),
+FOREIGN KEY (Id_Prod) REFERENCES producto  (Id),
+FOREIGN KEY (Id_Proveedor) REFERENCES proveedor (Id)
+);
+
+-- Comandos para ir probando:
+-- SELECT * FROM stock;
+-- DROP TABLE stock;
+
+CREATE TABLE IF NOT EXISTS compras (
+Orden_de_compra VARCHAR (50) NOT NULL UNIQUE,
+Fecha DATE NOT NULL,
+Id_Proveedor INT NOT NULL,
+Costo_compra DECIMAL (9,2) NOT NULL,
+PRIMARY KEY (Orden_de_compra),
+FOREIGN KEY (Id_Proveedor) REFERENCES proveedor (Id)
+);
+
+-- Comandos para ir probando:
+-- SELECT * FROM compras;
+-- DROP TABLE compras;
+
+CREATE TABLE IF NOT EXISTS entidad_financiera (
+Id INT AUTO_INCREMENT,
+Entidad_financiera VARCHAR (50) NOT NULL,
+Número_Tarjeta VARCHAR (20) NULL UNIQUE,
+Pin_seguridad INT NOT NULL,
+Nombre VARCHAR (30) NOT NULL,
+Apellido VARCHAR (30) NOT NULL,
+Vencimiento DATE NOT NULL,
+PRIMARY KEY (Id)
+);
+
+-- Comandos para ir probando:
+-- SELECT * FROM entidad_financiera;
+-- DROP TABLE entidad_financiera;
+
+CREATE TABLE IF NOT EXISTS ventas (
+Id INT AUTO_INCREMENT,
+Fecha_venta DATE NOT NULL,
+Id_Prod INT NOT NULL,
+Id_cliente INT NOT NULL,
+PRIMARY KEY (Id),
+FOREIGN KEY (Id_Prod) REFERENCES producto (Id),
+FOREIGN KEY (Id_cliente) REFERENCES cliente (Id)
+);
+
+-- Comandos para ir probando:
+-- SELECT * FROM ventas;
+-- DROP TABLE ventas;
+
+CREATE TABLE IF NOT EXISTS satisfaccion_cliente (
+Id INT AUTO_INCREMENT,
+Calificación INT,
+Comentarios VARCHAR (250),
+Cliente INT NOT NULL,
+Fecha_comentario DATE NOT NULL,
+PRIMARY KEY (Id),
+FOREIGN KEY (Cliente) REFERENCES cliente (Id)
+);
+
+-- Comandos para ir probando:
+-- SELECT * FROM safitsfaccion_cliente;
+-- DROP TABLE satisfaccion_cliente;
+
+-- CREACIÓN DE VISTAS 
+
+USE libreriafinanciera;
+
+-- Vista de Ventas mensuales por título
+
+CREATE VIEW Ventas_mes_vw AS
+SELECT 
+  DATE_FORMAT(v.Fecha_venta, '%Y-%m') AS Mes,
+  p.Título AS 'Libro',
+  p.Precio AS 'Precio unitario',
+  SUM(p.precio) AS 'Ventas totales'
+FROM ventas v
+JOIN producto p ON v.Id_Prod = p.Id
+GROUP BY DATE_FORMAT(v.Fecha_venta, '%Y-%m'), v.Id_Prod, p.Id, p.Precio;
+
+-- Probar:
+-- SELECT * FROM Ventas_mes_vw;
+-- DROP VIEW Ventas_mes_vw;
+
+-- Vista de stock: muestra la cantidad disponible de unidades de cada libro
+
+CREATE VIEW stock_vw AS
+SELECT 
+p.Título AS Libro,
+s.Cantidad AS Stock
+FROM producto p
+JOIN stock s on p.Id = s.Id_Prod
+ORDER BY s.Cantidad ASC;
+
+-- Probar:
+-- SELECT * FROM stock_vw;
+-- DROP view stock_vw;
+
+-- Vista de compras por cliente
+
+CREATE VIEW ventas_por_cliente_vw AS
+SELECT DISTINCT
+CONCAT (c.Nombre_cliente,' ',c.Apellido_cliente) AS Nombre,
+p.Título AS Libro
+FROM cliente c
+JOIN ventas v ON c.Id= v.Id
+JOIN producto p on v.Id_Prod= p.Id
+ORDER BY Nombre ASC;
+
+-- Probar:
+-- SELECT * FROM ventas_por_cliente_vw;
+-- DROP view ventas_por_cliente_vw;
+
+-- Vista de libros de analisis técnico
+
+CREATE VIEW Técnicos_vw AS
+SELECT Título,Autor, Precio
+FROM producto
+WHERE Categoría = 'Análisis técnico'
+ORDER BY Precio ASC;
+
+-- Probar:
+-- SELECT * FROM  Técnicos_vw;
+-- DROP VIEW Técnicos_vw;
+
+-- Vista de libros de analisis fundamental
+CREATE VIEW Fundamental_vw AS
+SELECT Título,Autor, Precio
+FROM producto
+WHERE Categoría = 'Análisis fundamental'
+ORDER BY Precio ASC;
+
+-- Probar:
+-- SELECT * FROM  Fundamental_vw;
+-- DROP VIEW Fundamental_vw;
+
+
+-- FUNCIONES
+
+-- F1
+
+CREATE DEFINER=`root`@`localhost` FUNCTION `Precio_del_libro`(Libro VARCHAR(100)) RETURNS decimal(8,2)
+    READS SQL DATA
+BEGIN
+    DECLARE precio_libro DECIMAL(8,2);
+    
+    SELECT Precio INTO precio_libro
+    FROM producto
+    WHERE Título LIKE CONCAT('%', Libro, '%'); -- El nombre del libro debe estar entre comillas, por ser tipo VARCHAR
+    
+    RETURN precio_libro;
+
+END
+
+-- F2
+
+CREATE DEFINER=`root`@`localhost` FUNCTION `Stock_libros`(Id INT) RETURNS int
+    READS SQL DATA
+BEGIN
+    DECLARE stock_de_libros DECIMAL(8,2);
+    
+    SELECT Cantidad INTO stock_de_libros
+    FROM stock
+    WHERE Id_Prod = Id; -- El nombre del libro debe estar entre comillas, por ser tipo VARCHAR
+    
+    RETURN stock_de_libros;
+
+END
