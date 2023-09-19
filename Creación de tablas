@@ -377,3 +377,39 @@ AFTER INSERT ON cliente -- Después de que se inserten uno o más registros en l
 FOR EACH ROW
 INSERT INTO nuevos_clientes (Usuario, Fecha, Hora, Id, Email, Nombre_cliente, Apellido_cliente, Domicilio_cliente, Telefono_cliente) -- La tabla que utilizaremos se llamará nuevos_clientes, no usaremos un Log
 VALUES (USER(), CURDATE(), CURTIME(), NEW.Id, NEW.Email, NEW.Nombre_cliente, NEW.Apellido_cliente, NEW.Domicilio_cliente, NEW.Telefono_cliente); -- Además de los datos de los clientes, agregamos el usuario, la fecha y el horario en que se realizó
+
+-- SUBLENGUAJE TCL
+
+-- Primera Tabla
+
+USE LibreriaFinanciera;
+
+START TRANSACTION;
+DELETE FROM producto -- Indico sobre que tabla eliminaré los registros
+WHERE id <= 5; -- Eliminamos los primeros 5 registros de la tabla
+ROLLBACK; -- Deshacemos la eliminación usando un rollback
+-- COMMIT; coloco el "Commit comentado, tal como lo solicta la consigna
+
+-- Segunda tabla
+
+START TRANSACTION;
+
+-- Inserción de 4 registros nuevos en la tabla repartidores
+
+INSERT INTO repartidores (Repartidor, Nombre, Apellido, Tel_repartidor, Email_repartidor) VALUES (6, 'Laura', 'García', '11-0123-4567', 'laura.garcia@hotmail.com'),
+INSERT INTO repartidores (Repartidor, Nombre, Apellido, Tel_repartidor, Email_repartidor) VALUES (7, 'Miguel', 'López', '11-1234-5678', 'miguel.lopez@hotmail.com'),
+INSERT INTO repartidores (Repartidor, Nombre, Apellido, Tel_repartidor, Email_repartidor) VALUES (8, 'Sofía', 'Pérez', '11-2345-6789', 'sofia.perez@hotmail.com'),
+INSERT INTO repartidores (Repartidor, Nombre, Apellido, Tel_repartidor, Email_repartidor) VALUES (9, 'Fernando', 'Rodríguez', '11-3456-7890', 'fernando.rodriguez@hotmail.com');
+
+-- Crear un SAVEPOINT llamado "nuevos_cuatro"
+SAVEPOINT nuevos_cuatro;
+
+INSERT INTO repartidores (Repartidor, Nombre, Apellido, Tel_repartidor, Email_repartidor) VALUES (10, 'Ana', 'Martínez', '11-4567-8901', 'ana.martinez@hotmail.com');
+INSERT INTO repartidores (Repartidor, Nombre, Apellido, Tel_repartidor, Email_repartidor) VALUES (11, 'Diego', 'Gómez', '11-5678-9012', 'diego.gomez@hotmail.com');
+INSERT INTO repartidores (Repartidor, Nombre, Apellido, Tel_repartidor, Email_repartidor) VALUES (12, 'Elena', 'Fernández', '11-6789-0123', 'elena.fernandez@hotmail.com');
+INSERT INTO repartidores (Repartidor, Nombre, Apellido, Tel_repartidor, Email_repartidor) VALUES (13, 'Gabriel', 'Silva', '11-7890-1234', 'gabriel.silva@hotmail.com');
+
+-- ROLLBACK TO SAVEPOINT nuevos_cuatro;
+-- En la línea anterior está la eliminación del SAVEPOINT, comentarizada, tal como lo pide la consigna
+
+COMMIT;
