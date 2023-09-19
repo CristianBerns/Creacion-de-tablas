@@ -1,0 +1,71 @@
+-- CREACIÓN DE VISTAS
+
+USE libreriafinanciera;
+
+-- Vista de Ventas mensuales por título
+
+CREAR VISTA Ventas_mes_vw AS
+SELECCIONAR
+  DATE_FORMAT(v.Fecha_venta, '%Y-%m') AS Mes,
+  p.Título AS 'Libro',
+  p.Precio AS 'Precio unitario',
+  SUM(p.precio) AS 'Ventas totales'
+DE ventas v
+UNIRSE producto p ON v.Id_Prod = p.Id
+GROUP BY DATE_FORMAT(v.Fecha_venta, '%Y-%m'), v.Id_Prod, p.Id, p.Precio;
+
+--Probar:
+-- SELECCIONAR * DE Ventas_mes_vw;
+-- VISTA DROP Ventas_mes_vw;
+
+-- Vista de stock: muestra la cantidad disponible de unidades de cada libro
+
+CREAR VISTA stock_vw AS
+SELECCIONAR
+p.Título AS Libro,
+s.Cantidad AS Stock
+DEL producto p
+ÚNASE a stock s en p.Id = s.Id_Prod
+ORDEN POR s.Cantidad ASC;
+
+--Probar:
+-- SELECCIONAR * DE stock_vw;
+- DROP ver stock_vw;
+
+-- Vista de compras por cliente
+
+CREAR VISTA ventas_por_cliente_vw AS
+SELECCIONAR DISTINTO
+CONCAT (c.Nombre_cliente,'',c.Apellido_cliente) AS Nombre,
+p.Título AS Libro
+DEL cliente c
+ÚNETE a ventas v ON c.Id= v.Id
+ÚNETE al producto p en v.Id_Prod= p.Id
+ORDEN POR Nombre ASC;
+
+--Probar:
+-- SELECCIONAR * FROM ventas_por_cliente_vw;
+--DROP ver ventas_por_cliente_vw;
+
+-- Vista de libros de análisis técnico
+
+CREAR VISTA Técnicos_vw AS
+SELECCIONAR Título,Autor, Precio
+DEL producto
+WHERE Categoría = 'Análisis técnico'
+PEDIR POR Precio ASC;
+
+--Probar:
+-- SELECCIONAR * DE Técnicos_vw;
+-- DROP VIEW Técnicos_vw;
+
+-- Vista de libros de análisis fundamental
+CREAR VISTA Fundamental_vw AS
+SELECCIONAR Título,Autor, Precio
+DEL producto
+WHERE Categoría = 'Análisis fundamental'
+PEDIR POR Precio ASC;
+
+--Probar:
+-- SELECCIONAR * DESDE Fundamental_vw;
+-- VISTA DROP Fundamental_vw;
