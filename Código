@@ -69,3 +69,23 @@ PEDIR POR Precio ASC;
 --Probar:
 -- SELECCIONAR * DESDE Fundamental_vw;
 -- VISTA DROP Fundamental_vw;
+
+
+-- STORED  PRODUCERED
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_agregar_stock`(IN id_producto INT, IN cantidad_ingresada INT)
+BEGIN
+    -- Ver si el producto ya existe en la tabla stock
+    DECLARE producto_existente INT;
+    SET producto_existente = (SELECT COUNT(*) FROM stock WHERE Id_Prod = id_producto);
+
+    IF producto_existente > 0 THEN
+-- Actualizar la cantidad de stock
+        UPDATE stock SET Cantidad = Cantidad + cantidad_ingresada WHERE Id_Prod = id_producto;
+    ELSE
+-- Mostrar alerta
+        SELECT 'Id inexistente' AS Alerta;
+    END IF;
+    
+-- Fin del procedimiento
+END
